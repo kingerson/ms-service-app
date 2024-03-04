@@ -2,7 +2,7 @@
 
 ## How to Run Project
 
-There are multiple ways to run this project using two pre-configured environments `local` and `docker`.  The `appsettings.json` files are configured to run the projects in different ways and connect different application logging mechanisms.  When running locally the application logs to the console window, when running in docker it spins up [Seq](https://datalust.co/seq) in a separate container and logs there instead.
+There are multiple ways to run this project using two pre-configured environments `local` and `docker`.  The `appsettings.json` files are configured to run the projects in different ways and connect different application logging mechanisms.  When running locally the application logs to the console window
 
 ### DOTNET CLI
 
@@ -14,15 +14,34 @@ dotnet run --project ./src/Presentation
 
 ### DOCKER COMPOSE
 
-Docker compose makes it easier to start multiple containers at one time and manage their configuration from one file (`docker-compose.yml`).  This project will run the application and a [Seq](https://datalust.co/seq) containter for application logging.  
+Docker compose makes it easier to start multiple containers at one time and manage their configuration from one file (`docker-compose.yml`).  This project will run the application 
 
 - App - http://localhost:8080/swagger
-- Seq - http://localhost:5341
+- Rotate Matrix - https://localhost:8080/api/Matrix
+
+### Example
+curl -X 'POST' \
+  'https://localhost:8080/api/Matrix' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "body": [
+        [
+            1,
+            2
+        ],
+        [
+            3,
+            4
+        ]
+    ]
+}'
+
 
 To start the Containers
 
 ``` bash
-docker-compose up -d
+docker-compose up --build -d
 ```
 
 To shut down the containers
@@ -30,3 +49,15 @@ To shut down the containers
 ``` bash
 docker-compose down
 ```
+
+
+## Features
+
+There are plenty of handy implementations of features throughout this solution, in no particular order here are some that might interest you.
+
+- Logging using [Serilog](https://github.com/serilog/serilog)
+- Mediator Pattern using [Mediatr](https://github.com/jbogard/MediatR)
+- Validation using [FluentValidation](https://github.com/FluentValidation/FluentValidation)
+- Testing using [Shouldly](https://github.com/shouldly/shouldly) and [NSubstitute](https://github.com/nsubstitute/NSubstitute)
+- OpenApi using [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle.AspNetCore)
+- Object Mapping using [AutoMapper](https://github.com/AutoMapper/AutoMapper)
